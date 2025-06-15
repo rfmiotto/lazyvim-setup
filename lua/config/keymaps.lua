@@ -10,8 +10,18 @@ vim.keymap.set("n", "<C-l>", "<Cmd>NvimTmuxNavigateRight<CR>", { silent = true }
 vim.keymap.set("n", "<C-\\>", "<Cmd>NvimTmuxNavigateLastActive<CR>", { silent = true })
 vim.keymap.set("n", "<C-Space>", "<Cmd>NvimTmuxNavigateNavigateNext<CR>", { silent = true })
 
--- make Insert mode behave like Normal mode for wrapped lines
-vim.keymap.set("i", "<Down>", "<C-o>gj", { desc = "Move down by screen line (insert)" })
-vim.keymap.set("i", "<Up>", "<C-o>gk", { desc = "Move up by screen line (insert)" })
-vim.keymap.set("i", "<Left>", "<C-o>h", { desc = "Move left (insert)" })
-vim.keymap.set("i", "<Right>", "<C-o>l", { desc = "Move right (insert)" })
+vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select all" })
+
+vim.keymap.set("n", "<C-w>", function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local listed_buffers = vim.tbl_filter(function(buf)
+    return vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted
+  end, vim.api.nvim_list_bufs())
+
+  if #listed_buffers > 1 then
+    vim.cmd("bprevious") -- Go to previous buffer
+    vim.cmd("bdelete " .. bufnr) -- Delete current
+  else
+    vim.cmd("q") -- Quit Neovim
+  end
+end, { desc = "Close current buffer (VSCode-like)" })
