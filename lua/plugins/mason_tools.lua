@@ -10,7 +10,10 @@ return {
 
       -- Linters/Formatters (these should match your pyproject.toml dev deps)
       "ruff",
-      "cpplint", -- If you have a linter named cpplint for C++
+      "cpplint",
+
+      -- Debug Adapters Protocols
+      "debugpy",
     },
   },
 }
