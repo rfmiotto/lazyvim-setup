@@ -11,9 +11,11 @@ return {
       -- Linters/Formatters (these should match your pyproject.toml dev deps)
       "ruff",
       "cpplint",
+      "clang-format",
 
       -- Debug Adapters Protocols
       "debugpy",
+      "codelldb",
     },
   },
 }
